@@ -47,22 +47,29 @@ Python install. The script has no GDAL/geospatial dependency — OSGeo4W is
 just used here as the Python runtime + shell.
 
 1. **Install OSGeo4W**, if not already present. Run the
-   [OSGeo4W installer](https://trac.osgeo.org/osgeo4w/) and, under
-   "Select Packages", make sure `python3-core` (and `python3-pip`) are
-   selected — these are included by default in the Express Install, and
-   also come bundled with a full QGIS install. Prefer the 64-bit installer.
+   [OSGeo4W installer](https://trac.osgeo.org/osgeo4w/) (`osgeo4w-setup.exe`)
+   in "Advanced Install" mode and, under "Select Packages", select
+   `python3-core` and **`python3-pyodbc`** (category *Libs*) — `pyodbc` is
+   an official OSGeo4W package, so it can be installed this way instead of
+   via pip. It's also pulled in automatically if you install any of the
+   QGIS packages, since QGIS depends on it. Prefer the 64-bit installer.
+
+   Re-running `osgeo4w-setup.exe` later reopens the same package selector,
+   so you can add `python3-pyodbc` after the fact without reinstalling
+   anything.
 
 2. **Open the OSGeo4W Shell** (Start Menu → OSGeo4W → OSGeo4W Shell). This
    sets up `PATH`/`PYTHONHOME` so `python3` resolves to the OSGeo4W
-   interpreter.
+   interpreter, with `pyodbc` already importable if installed per step 1.
 
-3. **Install `pyodbc`** into that environment:
+   If you'd rather install it via pip instead (e.g. to pin a specific
+   version), that also works:
 
    ```bat
    python3 -m pip install pyodbc
    ```
 
-4. **Install the Microsoft Access Database Engine ODBC driver.** This is a
+3. **Install the Microsoft Access Database Engine ODBC driver.** This is a
    separate Microsoft component, not part of OSGeo4W — download the
    [Access Database Engine 2016 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=54920)
    and run it.
@@ -79,7 +86,7 @@ just used here as the Python runtime + shell.
      (`C:\Windows\System32\odbcad32.exe`) → *Drivers* tab → confirm
      `Microsoft Access Driver (*.mdb, *.accdb)` is listed.
 
-5. **Run the script** from the OSGeo4W Shell, `cd`'d into this repo:
+4. **Run the script** from the OSGeo4W Shell, `cd`'d into this repo:
 
    ```bat
    cd C:\path\to\archis-csv-to-accdb
