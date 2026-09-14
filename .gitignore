@@ -1,0 +1,9 @@
+# ARCHIS data downloads (large, licensed data — not part of the tool itself)
+*.csv
+*.[aA][cC][cC][dD][bB]
+*.dbf
+onderzoeksmeldingen_20260414/
+schema.ini
+
+# Local Claude Code settings
+.claude/
