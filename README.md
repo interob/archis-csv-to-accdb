@@ -39,6 +39,53 @@ example schema covering seven ARCHIS export tables (`onderzoeksmeldingen`,
 pip install pyodbc
 ```
 
+## Running in an OSGeo4W environment (Windows)
+
+[OSGeo4W](https://trac.osgeo.org/osgeo4w/) is a convenient way to get a
+self-contained Python 3 environment on Windows without touching a system
+Python install. The script has no GDAL/geospatial dependency — OSGeo4W is
+just used here as the Python runtime + shell.
+
+1. **Install OSGeo4W**, if not already present. Run the
+   [OSGeo4W installer](https://trac.osgeo.org/osgeo4w/) and, under
+   "Select Packages", make sure `python3-core` (and `python3-pip`) are
+   selected — these are included by default in the Express Install, and
+   also come bundled with a full QGIS install. Prefer the 64-bit installer.
+
+2. **Open the OSGeo4W Shell** (Start Menu → OSGeo4W → OSGeo4W Shell). This
+   sets up `PATH`/`PYTHONHOME` so `python3` resolves to the OSGeo4W
+   interpreter.
+
+3. **Install `pyodbc`** into that environment:
+
+   ```bat
+   python3 -m pip install pyodbc
+   ```
+
+4. **Install the Microsoft Access Database Engine ODBC driver.** This is a
+   separate Microsoft component, not part of OSGeo4W — download the
+   [Access Database Engine 2016 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=54920)
+   and run it.
+   - Match the driver's bitness to the OSGeo4W Python (`python3 -c "import struct; print(struct.calcsize('P')*8)"`
+     — 64 in almost all current installs), i.e. install `AccessDatabaseEngine_X64.exe`.
+   - If 32-bit Microsoft Office is also installed on the machine, the
+     64-bit driver install will refuse to proceed. Either install the
+     matching 32-bit driver instead (and use a 32-bit OSGeo4W/Python), or
+     force the 64-bit driver alongside 32-bit Office with:
+     ```bat
+     AccessDatabaseEngine_X64.exe /quiet
+     ```
+   - Verify it registered: open **ODBC Data Sources (64-bit)**
+     (`C:\Windows\System32\odbcad32.exe`) → *Drivers* tab → confirm
+     `Microsoft Access Driver (*.mdb, *.accdb)` is listed.
+
+5. **Run the script** from the OSGeo4W Shell, `cd`'d into this repo:
+
+   ```bat
+   cd C:\path\to\archis-csv-to-accdb
+   python3 csv_to_accdb.py --csv vindplaatsen_20260414.csv --db ARCHIS.accdb --table vindplaatsen --config archis.ini
+   ```
+
 ## Usage
 
 ```bash
